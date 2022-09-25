@@ -1,0 +1,56 @@
+<p-dialog [(visible)]="createPaiementDialog" [style]="{width: '70vw', height: '80vh'}"
+          header="Ajouter un paiement" [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="p-fluid p-formgrid grid">
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="1">Reference <span style="color: red;"> *</span></label>-->
+<!--                <input type="text" pInputText id="1" placeholder="Reference" [(ngModel)]="selectedPaiement.reference" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validPaiementReference}"/>-->
+<!--                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPaiement.reference">Reference is required.</small>-->
+<!--            </div>-->
+
+            <div class="field col-12 md:col-6">
+                <label for="2">Date de Paiement<span style="color: red;"> *</span></label>
+                <p-calendar id="2" placeholder="YYYY/MM/DD" [showIcon]="true" id="2" [showButtonBar]="true" [(ngModel)]="selectedPaiement.datePaiement" dateFormat="{{dateFormat}}" [ngClass]="{'ng-invalid ng-dirty' : !validPaiementDatePaiement}"  >
+                </p-calendar>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPaiement.datePaiement">Date est obligatoire.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="3">Montant <span style="color: red;"> *</span></label>
+                <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Montant" [(ngModel)]="selectedPaiement.montant" [ngClass]="{'ng-invalid ng-dirty' : !validPaiementMontant}" [showButtons]="true" [min]="0">
+                </p-inputNumber>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPaiement.montant">Montant est obligatoire.</small>
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label for="4">Consultation<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="consultations" [(ngModel)]="selectedPaiement.consultationVo"
+                            id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                            optionLabel="id" placeholder="Consultation">
+                </p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPaiement.consultationVo">Consultation est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-5">
+                <label for="4">Type de paiement<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="typePaiements" [(ngModel)]="selectedPaiement.typePaiementVo"
+                            id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                            optionLabel="libelle" placeholder="Type De Paiement">
+                </p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPaiement.consultationVo">Consultation est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-1">
+                <button pButton pRipple type="button"
+                        icon="pi pi-plus" (click)="openCreatetypePaiement('typePaiement')"
+                        class="p-button-primary one-colonne-btn-success-align mt-4"></button>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+</p-dialog>

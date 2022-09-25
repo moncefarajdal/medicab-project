@@ -1,0 +1,79 @@
+<!--<div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">-->
+<!--    <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">-->
+<!--        <div class="col-12 mt-5 xl:mt-0 text-center">-->
+<!--            <img src="assets/layout/images/logo-dark.svg" alt="Sakai logo" class="mb-5" style="width:81px; height:60px;">-->
+<!--        </div>-->
+<!--        <div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(&#45;&#45;primary-color) 10%, rgba(33, 150, 243, 0) 30%);">-->
+<!--            <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(&#45;&#45;surface-50) 38.9%, var(&#45;&#45;surface-0));">-->
+<!--                <div class="text-center mb-5">-->
+<!--                    <div class="text-900 text-3xl font-medium mb-3">Welcome, To Our CLinic</div>-->
+<!--                    <span class="text-600 font-medium">Sign in to continue</span>-->
+<!--                </div>-->
+
+<!--                <div class="w-full md:w-10 mx-auto" [formGroup]="loginForm">-->
+<!--                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>-->
+<!--                    <input id="email1" type="text" placeholder="Username" pInputText formControlName="username" required autofocus class="w-full mb-3" style="padding:1rem;">-->
+
+<!--                    <label for="password" class="block text-900 text-xl font-medium mb-2">Password</label>-->
+<!--                    <input id="password" type="password" placeholder="Password" pInputText formControlName="password" class="w-full mb-3" style="padding:1rem;"/>-->
+
+<!--                    <div class="flex align-items-center justify-content-between mb-5">-->
+<!--                        <div class="flex align-items-center">-->
+<!--                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>-->
+<!--                            <label for="rememberme1">Remember me</label>-->
+<!--                        </div>-->
+<!--                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(&#45;&#45;primary-color)">Forgot password?</a>-->
+<!--                    </div>-->
+<!--                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="submit()"></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div id="blockContent" class="block-content">
+    <div class="block-content-active ">
+        <div class="flex">
+            <div class="surface-section w-full md:w-6 p-6 md:p-8">
+                <div class="mb-5"><img id="j_idt77:blockViewerForm:j_idt79"
+                                       src="/primeblocks-jsf/javax.faces.resource/images/blocks/logos/hyper.svg.xhtml?ln=primeblocks-app"
+                                       class="mb-3" alt="Image" height="50">
+                    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+                    <span class="text-600 font-medium mr-2">Don't have an account?</span>
+                    <a class="font-medium no-underline text-blue-500 cursor-pointer">Create today!</a>
+                </div>
+                <div [formGroup]="loginForm">
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>
+                    <input id="email1" type="text" placeholder="Username" pInputText formControlName="username" required autofocus class="w-full mb-3" style="padding:1rem;">
+
+                    <label for="password" class="block text-900 text-xl font-medium mb-2">Password</label>
+                    <input id="password" type="password" placeholder="Password" pInputText formControlName="password" class="w-full mb-3" style="padding:1rem;"/>
+
+                    <div class="flex align-items-center justify-content-between mb-6">
+                        <div class="flex align-items-center">
+                            <div id="j_idt77:blockViewerForm:rememberme2"
+                                 class="ui-selectbooleancheckbox ui-chkbox ui-widget mr-2">
+                                <div class="ui-helper-hidden-accessible"><input
+                                    id="j_idt77:blockViewerForm:rememberme2_input"
+                                    name="j_idt77:blockViewerForm:rememberme2_input" type="checkbox" autocomplete="off"
+                                    aria-checked="false"></div>
+                                <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span
+                                    class="ui-chkbox-icon ui-icon ui-icon-blank ui-c"></span></div>
+                            </div>
+                            <label>   Remember me</label>
+                        </div>
+                        <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your
+                            password?</a>
+                    </div>
+                    <button id="j_idt77:blockViewerForm:j_idt84" name="j_idt77:blockViewerForm:j_idt84"
+                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left w-full"
+                            type="button" role="button" aria-disabled="false" (click)="submit()"><span
+                        class="ui-button-icon-left ui-icon ui-c pi pi-user"></span><span class="ui-button-text ui-c">Sign In</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden md:block w-6 bg-no-repeat bg-cover"
+                 style="background: url(/assets/layout/images/doctor-login.png)"></div>
+        </div>
+    </div>
+</div>

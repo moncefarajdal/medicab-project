@@ -1,0 +1,118 @@
+<!--<p-dialog [(visible)]="viewCertificatDialog" [style]="{width: '70vw', height: '80vh'}"-->
+<!--          header="Ajouter une certificat" [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">-->
+<!--    <ng-template pTemplate="content">-->
+<!--        <div class="p-fluid p-formgrid grid" id="invoice" #invoice>-->
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="1">Reference</label>-->
+<!--                <input type="text" pInputText id="1" placeholder="Reference" [(ngModel)]="selectedCertificat.reference" [disabled]="true">-->
+<!--            </div>-->
+
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="1-1">Nombre de jours</label>-->
+<!--                <input type="text" pInputText id="1-1" placeholder="Nombre de jours" [(ngModel)]="selectedCertificat.nbreJours" [disabled]="true">-->
+<!--            </div>-->
+
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="2">Date de debut</label>-->
+<!--                <p-calendar id="2" placeholder="Date de debut" [showIcon]="true" id="2" [showButtonBar]="true" [(ngModel)]="selectedCertificat.dateDebut" dateFormat="{{dateFormat}}" [disabled]="true">-->
+<!--                </p-calendar>-->
+<!--            </div>-->
+
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="2-2">Date de fin</label>-->
+<!--                <p-calendar id="2-2" placeholder="Date de fin" [showIcon]="true" id="2" [showButtonBar]="true" [(ngModel)]="selectedCertificat.dateFin" dateFormat="{{dateFormat}}" [disabled]="true">-->
+<!--                </p-calendar>-->
+<!--            </div>-->
+
+<!--            <div class="field col-12 md:col-12">-->
+<!--                <label for="8">Commentaire</label>-->
+<!--                <textarea class="p-mb-2" type="text" pInputText placeholder="Commentaire" id="8" [(ngModel)]="selectedCertificat.commentaire" [disabled]="true" [style]="{height: '20vh'}"></textarea>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="p-fluid p-formgrid grid">-->
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="6">Patient</label>-->
+<!--                <p-dropdown [options]="patients" [(ngModel)]="selectedCertificat.patientVo" id="6" [filter]="true" filterMatchMode="contains" [showClear]="true" optionLabel="cin" placeholder="Patient" [disabled]="true">-->
+<!--                </p-dropdown>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+
+<!--    <ng-template pTemplate="footer">-->
+<!--        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideViewDialog()"></button>-->
+<!--        <button pButton pRipple label="Download" icon="pi pi-download" class="p-button-text p-button-secondary" (click)="generatePDF()"></button>-->
+<!--    </ng-template>-->
+
+<!--</p-dialog>-->
+
+<p-dialog [(visible)]="viewCertificatDialog" [style]="{width: '6in', height: '8in'}"
+          [modal]="true" class="p-fluid" [maximizable]="false" [draggable]="false"
+          [resizable]="false">
+    <ng-template pTemplate="content">
+        <!--        <div class="p-fluid p-formgrid grid" id="invoice" #invoice>-->
+        <!--            <div class="field col-12 md:col-12 content-center">-->
+        <!--                <h2>Certificat Médical</h2>-->
+        <!--            </div>-->
+
+        <!--            <div class="field col-12 md:col-12">-->
+        <!--                <p>Je soussigné Docteur en médecine: ARAJDAL Ibtissam</p>-->
+        <!--            </div>-->
+        <!--            <div class="field col-12 md:col-12">-->
+        <!--                <p>Certifie avoir examine ce jour M. / Mme / Melle:</p>-->
+        <!--            </div>-->
+        <!--            <div class="field col-12 md:col-6">-->
+        <!--                <p>Nom: {{selectedCertificat.patientVo.nom}}</p>-->
+        <!--            </div>-->
+        <!--            <div class="field col-12 md:col-6">-->
+        <!--                <p>Nom: {{selectedCertificat.patientVo.prenom}}</p>-->
+        <!--            </div>-->
+        <!--            <div class="field col-12 md:col-12">-->
+        <!--                <p>Né(e) le : {{selectedCertificat.patientVo.dateNaissance}}</p>-->
+        <!--            </div>-->
+
+        <!--            <textarea class="p-mb-6" type="text" pInputText placeholder="Commentaire" id="8"-->
+        <!--                      [(ngModel)]="selectedCertificat.commentaire" [disabled]="false"-->
+        <!--                      [style]="{height: '20vh'}"></textarea>-->
+
+        <!--            <p>Fait le : {{selectedCertificat.dateCreation | date:'dd-MM-yyyy'}}</p>-->
+
+        <!--        </div>-->
+        <div id="invoice" #invoice class="px-8 py-6">
+            <div class="d-flex justify-content-center container pb-4">
+                <h3>Certificat Médical</h3>
+            </div>
+            <div class="pb-2">
+                <p>Je soussigné Docteur en médecine : ARAJDAL Ibtissam</p>
+            </div>
+            <div class="pb-2">
+                <p>Certifie avoir examine ce jour M. / Mme / Melle:</p>
+            </div>
+            <div class="d-flex flex-row pb-2">
+                <div class="py-2 pr-8"><p>Nom : {{selectedCertificat.patientVo.nom}}</p></div>
+                <div class="py-2"><p>Prénom : {{selectedCertificat.patientVo.prenom}}</p></div>
+            </div>
+            <div class="pb-6">
+                <p>Né(e) le : {{selectedCertificat.patientVo.dateNaissance | date:'dd-MM-yyyy'}}</p>
+            </div>
+            <div class="pb-6">
+                <p>{{selectedCertificat.commentaire}}</p>
+            </div>
+            <div class="pb-6">
+                <p>Fait le : {{selectedCertificat.dateCreation | date:'dd-MM-yyyy'}}</p>
+            </div>
+            <div class="d-flex justify-content-end">
+                <p>Signature :</p>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideViewDialog()"></button>
+        <button pButton pRipple label="Telecharger" icon="pi pi-download" class="p-button-text"
+                (click)="generatePDF()"></button>
+    </ng-template>
+
+</p-dialog>

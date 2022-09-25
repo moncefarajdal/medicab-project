@@ -1,0 +1,27 @@
+<p-dialog [(visible)]="createSupplementDialog" [style]="{width: '450px'}" header="Ajouter une constante" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="1">Reference <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="1" [(ngModel)]="selectedSupplement.reference" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validSupplementReference}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedSupplement.reference">Name is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="2">Libelle <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="2" [(ngModel)]="selectedSupplement.libelle" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validSupplementLibelle}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedSupplement.libelle">Libelle is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="3">Description</label>
+            <textarea id="3" pInputTextarea rows="5" cols="30"
+                      placeholder="Description"  [(ngModel)]="selectedSupplement.description"
+            ></textarea>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+</p-dialog>

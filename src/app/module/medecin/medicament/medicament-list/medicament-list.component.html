@@ -1,0 +1,116 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                                (click)="openCreateMedicament('medicament')"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Recherche" icon="pi pi-{{findByCriteriaShow?'angle-down':'angle-right'}}"
+                            class="p-button-success mr-2 p-mb-2" (click)="this.findByCriteriaShow = !this.findByCriteriaShow">
+                    </button>
+                    <p-splitButton label="Export" icon="pi pi-download" styleClass="p-button-help" [model]="excelPdfButons">
+                    </p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-toolbar styleClass="mb-4" *ngIf="findByCriteriaShow">
+                <div class="p-fluid p-formgrid grid">
+                    <span class="field col-12 md:col-3">
+                        <label for="1">Cin</label>
+                        <input class="p-mr-2" pInputText id="1" type="text" [(ngModel)]="searchMedicament.codeMedicament">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="2">Nom</label>
+                        <input class="p-mr-2" pInputText id="2" type="text" [(ngModel)]="searchMedicament.libelle">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="5">Genre</label>
+                        <p-dropdown [options]="categorieMedicaments" [(ngModel)]="searchMedicament.categorieMedicamentVo" id="5"
+                                    [filter]="true" [showClear]="true" placeholder="Sexe" optionLabel="code">
+                        </p-dropdown>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <button pButton pRipple label="Valider" icon="pi pi-sort-amount-down"
+                            class="p-button-help" (click)="searchRequest()"></button>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt [value]="medicaments" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['cin', 'nom', 'prenom', 'dateNaissance', 'code', 'adresse', 'telephone', 'numeroCnss', 'mutualise', 'code', 'archive', 'dateArchivage', 'dateCreation']"
+                     [(selection)]="selectedMedicament"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [showCurrentPageReport]="false">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste Des Medicaments</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Search..." (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="cin">Code Medicament
+                            <p-sortIcon field="cin"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="nom">Libelle
+                            <p-sortIcon field="nom"></p-sortIcon>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-medicament>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="medicament"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:25rem;">{{medicament.codeMedicament}}</td>
+                        <td style="width:14%; min-width:25rem;">{{medicament.libelle}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="editMedicament(medicament)"></button>
+                                <button pButton pRipple icon="pi pi-eye"
+                                        class="p-button-rounded p-button-secondary mr-2"
+                                        (click)="viewMedicament(medicament)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="deleteMedicament(medicament)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale il {{medicaments ? medicaments.length == 1 ?
+                        'y a' : 'y a' : 'y a' }} {{medicaments ? medicaments.length : 0 }} {{medicaments ?
+                        medicaments.length == 1 ? 'medicament' : 'medicaments' : 0 }}.
+                    </div>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <app-medicament-create></app-medicament-create>
+        <app-medicament-edit></app-medicament-edit>
+        <app-medicament-view></app-medicament-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>
+
+

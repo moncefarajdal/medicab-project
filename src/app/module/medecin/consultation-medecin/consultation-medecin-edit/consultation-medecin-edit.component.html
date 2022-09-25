@@ -1,0 +1,342 @@
+<p-dialog [(visible)]="editConsultationDialog" [style]="{width: '70vw', height: '80vh'}" [modal]="true" class="p-fluid"
+          [maximizable]="true" header="Ajouter une consultation" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <p-tabView>
+            <p-tabPanel header="Consultation">
+<!--                <div class="field">-->
+<!--                    <label for="1">Reference <span style="color: red;"> *</span></label>-->
+<!--                    <input type="text" pInputText id="1" placeholder="Reference"-->
+<!--                           [(ngModel)]="selectedConsultation.reference" required autofocus>-->
+<!--                </div>-->
+
+                <div class="field">
+                    <label for="2">Date de consultation<span style="color: red;"> *</span></label>
+                    <p-calendar id="2" placeholder="Date de consultation" [showIcon]="true" id="2"
+                                [showButtonBar]="true" [(ngModel)]="selectedConsultation.dateConsultation"
+                                dateFormat="{{dateFormat}}">
+                    </p-calendar>
+                </div>
+
+                <div class="field">
+                    <label for="3">Montant <span style="color: red;"> *</span></label>
+                    <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Montant"
+                                   [(ngModel)]="selectedConsultation.tarif" [showButtons]="true">
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-5">
+                        <label for="4">Type de Consultation<span style="color: red;"> *</span></label>
+                        <p-dropdown [options]="typeConsultations" [(ngModel)]="selectedConsultation.typeConsultationVo"
+                                    id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                    optionLabel="libelle" (onChange)="changeMontant()"
+                                    placeholder="Type consultation">
+                        </p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-1">
+                        <button pButton pRipple type="button"
+                                icon="pi pi-plus" (click)="openCreatetypeConsultation('typeConsultation')"
+                                class="p-button-primary one-colonne-btn-success-align mt-4"></button>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="5">Patient<span style="color: red;"> *</span></label>
+                        <p-dropdown [options]="patients" [(ngModel)]="selectedConsultation.patientVo"
+                                    id="5" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                    optionLabel="cin" placeholder="Patient">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Les constantes de la consultation">
+                <p-tabView>
+                    <p-tabPanel header="Création">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-6">
+                                <label>Constante</label>
+                                <p-dropdown [options]="constantes"
+                                            [(ngModel)]="selectedConstanteConsultations.constanteVo"
+                                            id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                            optionLabel="libelle" placeholder="Constante">
+                                </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-6 mt-5">
+                                <label></label>
+                                <button pButton pRipple type="button"
+                                        icon="pi pi-plus" (click)="openCreateconstante('constante')"
+                                        class="p-button-primary"></button>
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="2">Valeur</label>
+                                <input class="p-mb-2 p-mr-2" type="text" pInputText
+                                       placeholder="Valeur"
+                                       id="5" [(ngModel)]="selectedConstanteConsultations.valeur"
+                                       autofocus>
+                            </div>
+                            <label></label>
+                            <div class="field col-12 md:col-4 mt-5">
+                                <button pButton pRipple type="button" class="p-button-success" icon="pi pi-plus"
+                                        label="OK" (click)="addConstanteConsultations()">
+                                </button>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Liste">
+                        <!--                        <div class="card">-->
+                        <p-table [value]="selectedConsultation.constanteConsultationsVo" [scrollable]="true"
+                                 scrollHeight="200px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Constante</th>
+                                    <th>Valeur</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-p>
+                                <tr>
+                                    <td>{{p.constanteVo?.libelle}}</td>
+                                    <td>{{p.valeur}}</td>
+                                    <td>
+                                        <button (click)="deleteConstanteConsultations(p)" pButton type="button"
+                                                icon="pi pi-times" class="p-button-rounded p-button-danger">
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <!--                        </div>-->
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+
+            <p-tabPanel header="Les supplements">
+                <p-tabView>
+                    <p-tabPanel header="Création">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-6">
+                                <label>Supplement</label>
+                                <p-dropdown [options]="supplements"
+                                            [(ngModel)]="selectedSupplementConsultations.supplementVo"
+                                            id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                            optionLabel="libelle" placeholder="Supplement">
+                                </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-6 mt-5">
+                                <label></label>
+                                <button pButton pRipple type="button"
+                                        icon="pi pi-plus" (click)="openCreatesupplement('supplement')"
+                                        class="p-button-primary"></button>
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="2">Prix</label>
+                                <input class="p-mb-2 p-mr-2" type="text" pInputText
+                                       placeholder="Valeur"
+                                       id="5" [(ngModel)]="selectedSupplementConsultations.prix"
+                                       autofocus>
+                            </div>
+                            <label></label>
+                            <div class="field col-12 md:col-4 mt-5">
+                                <button pButton pRipple type="button" class="p-button-success" icon="pi pi-plus"
+                                        label="OK" (click)="addSupplementConsultations()">
+                                </button>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Liste">
+                        <div class="card">
+                            <p-table [value]="selectedConsultation.supplementConsultationsVo" [scrollable]="true">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Supplement</th>
+                                        <th>Prix</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.supplementVo?.libelle}}</td>
+                                        <td>{{p.prix}}</td>
+                                        <td>
+                                            <button (click)="deleteSupplementConsultations(p)" pButton type="button"
+                                                    icon="pi pi-times" class="p-button-rounded p-button-danger">
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+
+<!--            <p-tabPanel header="Ordonnances">-->
+<!--                <p-tabView>-->
+<!--                    <p-tabPanel header="Création">-->
+<!--                        <div class="p-fluid p-formgrid grid">-->
+<!--                            <div class="field col-12 md:col-6">-->
+<!--                                <label for="6">Reference</label>-->
+<!--                                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Reference" id="6"-->
+<!--                                       [(ngModel)]="selectedOrdonnances.reference"/>-->
+<!--                            </div>-->
+
+<!--                            <div class="field col-12 md:col-6">-->
+<!--                                <label for="7">Date ordonnance</label>-->
+<!--                                <p-calendar id="7" placeholder="Date ordonnance"-->
+<!--                                            [(ngModel)]="selectedOrdonnances.dateOrdonnance" dateFormat="{{dateFormat}}"-->
+<!--                                            [showIcon]="true"></p-calendar>-->
+<!--                            </div>-->
+
+<!--                            <div class="field col-12 md:col-12">-->
+<!--                                <label for="8">Description</label>-->
+<!--                                <textarea class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Description" id="8"-->
+<!--                                          [(ngModel)]="selectedOrdonnances.description"></textarea>-->
+<!--                            </div>-->
+
+<!--                            <div class="field col-12 md:col-4">-->
+<!--                                <button pButton pRipple type="button" icon="pi pi-plus" class="p-mt-4" label="OK"-->
+<!--                                        (click)="addOrdonnances()"></button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </p-tabPanel>-->
+<!--                    <p-tabPanel header="Liste">-->
+<!--                        <div class="card">-->
+<!--                            <p-table [value]="selectedConsultation.ordonnancesVo" [scrollable]="true"-->
+<!--                                     scrollHeight="200px">-->
+<!--                                <ng-template pTemplate="header">-->
+<!--                                    <tr>-->
+<!--                                        <th>Reference</th>-->
+<!--                                        <th>Description</th>-->
+<!--                                        <th>Date ordonnance</th>-->
+<!--                                        <th>Actions</th>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                                <ng-template pTemplate="body" let-p>-->
+<!--                                    <tr>-->
+<!--                                        <td>{{p.reference}}</td>-->
+<!--                                        <td>{{p.description}}</td>-->
+<!--                                        <td>{{p.dateOrdonnance | date: dateFormatColumn}}</td>-->
+<!--                                        <td>-->
+<!--                                            <button (click)="deleteOrdonnances(p)" pButton type="button"-->
+<!--                                                    icon="pi pi-times" class="p-button-rounded p-button-danger">-->
+<!--                                            </button>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                            </p-table>-->
+<!--                        </div>-->
+<!--                    </p-tabPanel>-->
+<!--                </p-tabView>-->
+<!--            </p-tabPanel>-->
+
+            <p-tabPanel header="Prescriptions">
+                <p-tabView>
+                    <p-tabPanel header="Création">
+                        <div class="p-fluid p-formgrid grid">
+<!--                            <div class="field col-12 md:col-5">-->
+<!--                                <label for="9">Reference</label>-->
+<!--                                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Reference" id="9"-->
+<!--                                       [(ngModel)]="selectedPrescriptions.reference"/>-->
+<!--                            </div>-->
+
+                            <div class="field col-12 md:col-5">
+                                <label>Medicament</label>
+                                <p-dropdown [options]="medicaments" [(ngModel)]="selectedPrescriptions.medicamentVo"
+                                            id="10" [filter]="true"
+                                            filterMatchMode="contains" [showClear]="true"
+                                            optionLabel="libelle" placeholder="Medicament">
+                                </p-dropdown>
+                            </div>
+
+                            <div class="field col-12 md:col-2">
+                                <button pButton pRipple type="button"
+                                        icon="pi pi-plus" (click)="openCreatemedicament('medicament')"
+                                        class="one-colonne-btn-success-align mt-4"></button>
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="2">Nombre de fois par jour</label>
+                                <p-inputNumber class="p-mb-2 p-mr-2" id="nbreFois" placeholder="Nombre de fois"
+                                               [(ngModel)]="selectedPrescriptions.nbreFois"></p-inputNumber>
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="3">Pendant une durée de</label>
+                                <p-inputNumber class="p-mb-2 p-mr-2" id="qteMedicament"
+                                               placeholder="pendant une durée de"
+                                               [(ngModel)]="selectedPrescriptions.qteMedicament"></p-inputNumber>
+                            </div>
+
+<!--                            <div class="field col-12 md:col-6">-->
+<!--                                <label>Ordonnance</label>-->
+<!--                                <p-dropdown [options]="ordonnances" [(ngModel)]="selectedPrescriptions.ordonnanceVo"-->
+<!--                                            id="0" [filter]="true"-->
+<!--                                            filterMatchMode="contains" [showClear]="true" optionLabel="reference"-->
+<!--                                            placeholder="Ordonnance">-->
+<!--                                </p-dropdown>-->
+<!--                            </div>-->
+
+<!--                            <div class="field col-12 md:col-4">-->
+<!--                                <button pButton pRipple type="button"-->
+<!--                                        icon="pi pi-plus" (click)="openCreateordonnance('ordonnance')"-->
+<!--                                        class="p-button-success one-colonne-btn-success-align"></button>-->
+<!--                            </div>-->
+
+                            <div class="field col-12 md:col-4">
+                                <button pButton pRipple type="button" icon="pi pi-plus" class="p-mt-4 p-button-success"
+                                        label="OK" (click)="addPrescriptions()"></button>
+                            </div>
+
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Liste">
+                        <div class="card">
+                            <p-table [value]="selectedConsultation.prescriptionsVo" [scrollable]="true"
+                                     scrollHeight="200px">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Medicament</th>
+                                        <th>Nombre de fois</th>
+                                        <th>Durée</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.medicamentVo?.libelle}}</td>
+                                        <td>{{p.nbreFois}}</td>
+                                        <td>{{p.qteMedicament}} jours</td>
+                                        <td>
+                                            <button (click)="deletePrescriptions(p)" pButton type="button"
+                                                    icon="pi pi-times" class="p-button-rounded p-button-danger">
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+
+        </p-tabView>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideEditDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="edit()"></button>
+    </ng-template>
+
+    <app-constante-create></app-constante-create>
+    <app-medicament-create></app-medicament-create>
+    <app-supplement-create></app-supplement-create>
+    <app-ordonnance-create></app-ordonnance-create>
+    <app-type-consultation-medecin-create></app-type-consultation-medecin-create>
+
+</p-dialog>

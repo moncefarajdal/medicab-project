@@ -1,0 +1,27 @@
+<p-dialog [(visible)]="createConstanteDialog" [style]="{width: '450px'}" header="Ajouter une constante" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+<!--        <div class="field">-->
+<!--            <label for="1">Reference <span style="color: red;"> *</span></label>-->
+<!--            <input type="text" pInputText id="1" [(ngModel)]="selectedConstante.reference" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validConstanteReference}"/>-->
+<!--            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedConstante.reference">Name is required.</small>-->
+<!--        </div>-->
+
+        <div class="field">
+            <label for="2">Libelle <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="2" [(ngModel)]="selectedConstante.libelle" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validConstanteLibelle}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedConstante.libelle">Libelle est obligatoire.</small>
+        </div>
+
+<!--        <div class="field">-->
+<!--            <label for="3">Description</label>-->
+<!--            <textarea id="3" pInputTextarea rows="5" cols="30"-->
+<!--                      placeholder="Description"  [(ngModel)]="selectedConstante.description"-->
+<!--            ></textarea>-->
+<!--        </div>-->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+</p-dialog>

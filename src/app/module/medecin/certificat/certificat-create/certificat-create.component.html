@@ -1,0 +1,65 @@
+<p-dialog [(visible)]="createCertificatDialog" [style]="{width: '70vw', height: '80vh'}"
+          header="Ajouter un certificat" [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="p-fluid p-formgrid grid">
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <label for="1">Reference <span style="color: red;"> *</span></label>-->
+<!--                <input type="text" pInputText id="1" placeholder="Reference"-->
+<!--                       [(ngModel)]="selectedCertificat.reference" required autofocus-->
+<!--                       [ngClass]="{'ng-invalid ng-dirty' : !validCertificatReference}"/>-->
+<!--                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCertificat.reference">Reference is required.</small>-->
+<!--            </div>-->
+
+            <div class="field col-12 md:col-6">
+                <label for="1-1">Nombre de jours <span style="color: red;"> *</span></label>
+                <input type="text" pInputText id="1-1" placeholder="Nombre de jours"
+                       [(ngModel)]="selectedCertificat.nbreJours" required autofocus
+                       [ngClass]="{'ng-invalid ng-dirty' : !validCertificatNbreJours}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCertificat.nbreJours">Nombre de jours est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="2">Date de debut <span style="color: red;"> *</span></label>
+                <p-calendar id="2" placeholder="Date de debut" [showIcon]="true" id="2"
+                            [showButtonBar]="true" [(ngModel)]="selectedCertificat.dateDebut"
+                            dateFormat="{{dateFormat}}"
+                            [ngClass]="{'ng-invalid ng-dirty' : !validCertificatDateDebut}">
+                </p-calendar>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCertificat.dateDebut">Date de debut est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="2-2">Date de fin <span style="color: red;"> *</span></label>
+                <p-calendar id="2-2" placeholder="Date de fin" [showIcon]="true" id="2"
+                            [showButtonBar]="true" [(ngModel)]="selectedCertificat.dateFin"
+                            dateFormat="{{dateFormat}}"
+                            [ngClass]="{'ng-invalid ng-dirty' : !validCertificatDateFin}">
+                </p-calendar>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCertificat.dateFin">Date de fin est obligatoire.</small>
+            </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="6">Patient<span style="color: red;"> *</span></label>
+                    <p-dropdown [options]="patients" [(ngModel)]="selectedCertificat.patientVo"
+                                id="6" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                optionLabel="cin"
+                                placeholder="Patient">
+                    </p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCertificat.patientVo">Patient est obligatoire.</small>
+                </div>
+
+            <div class="field col-12 md:col-12">
+                <label for="8">Commentaire</label>
+                <textarea class="p-mb-2" type="text" pInputText placeholder="Commentaire" id="8" rows="8"
+                          [(ngModel)]="selectedCertificat.commentaire"></textarea>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+</p-dialog>

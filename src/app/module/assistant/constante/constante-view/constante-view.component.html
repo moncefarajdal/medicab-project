@@ -1,0 +1,29 @@
+<p-dialog [(visible)]="viewConstanteDialog" [style]="{width: '450px'}" header="Details de la Constante" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+<!--        <div class="field">-->
+<!--            <label for="1">Reference</label>-->
+<!--            <input type="text" pInputText id="1" [(ngModel)]="selectedConstante.reference" [disabled]="true" autofocus/>-->
+<!--        </div>-->
+
+        <div class="field">
+            <label for="2">Libelle</label>
+            <input type="text" pInputText id="2" [(ngModel)]="selectedConstante.libelle" [disabled]="true" autofocus/>
+        </div>
+
+<!--        <div class="field">-->
+<!--            <label for="3">Description</label>-->
+<!--            <textarea id="3" pInputTextarea rows="5" cols="30" placeholder="Description" [(ngModel)]="selectedConstante.description" [disabled]="true"></textarea>-->
+<!--        </div>-->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <div class="p-grid">
+            <div>
+                <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideViewDialog()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+
+

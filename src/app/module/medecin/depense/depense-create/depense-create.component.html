@@ -1,0 +1,95 @@
+<p-dialog [(visible)]="createDepenseDialog" [style]="{width: '70vw', height: '80vh'}"
+          header="Ajouter les depenses" [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <p-tabView>
+            <p-tabPanel header="Depenses">
+                <div class="field">
+                    <label for="3">Total <span style="color: red;"> *</span></label>
+                    <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="{{chargesFixe}}"
+                                   [(ngModel)]="selectedDepense.total" [showButtons]="true">
+                    </p-inputNumber>
+                </div>
+                <div class="field">
+                    <label for="2">Date<span style="color: red;"> *</span></label>
+                    <p-calendar id="2" placeholder="Date de creation" [showIcon]="true" id="2"
+                                [showButtonBar]="true" [(ngModel)]="selectedDepense.date"
+                                dateFormat="{{dateFormat}}"
+                                [ngClass]="{'ng-invalid ng-dirty' : !validDepenseDateDepense}">
+                    </p-calendar>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedDepense.date">Date est obligatoire.</small>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Les charges">
+                <p-tabView>
+                    <p-tabPanel header="Création">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-6">
+                                <label>Charge</label>
+                                <p-dropdown [options]="charges"
+                                            [(ngModel)]="selectedTarifCharges.chargeVo"
+                                            id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                            optionLabel="libelle" placeholder="Charge">
+                                </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-6 mt-5">
+                                <label></label>
+                                <button pButton pRipple type="button"
+                                        icon="pi pi-plus" (click)="openCreatecharge('charge')"
+                                        class="p-button-primary"></button>
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="2">Prix</label>
+                                <input class="p-mb-2 p-mr-2" type="text" pInputText
+                                       placeholder="Prix"
+                                       id="5" [(ngModel)]="selectedTarifCharges.prix"
+                                       autofocus>
+                            </div>
+                            <label></label>
+                            <div class="field col-12 md:col-4 mt-5">
+                                <button pButton pRipple type="button" class="p-button-success"
+                                        label="OK" (click)="addTarifCharges()">
+                                </button>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Liste">
+                        <div class="card">
+                            <p-table [value]="selectedDepense.tarifChargesVo" [scrollable]="true">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Charge</th>
+                                        <th>Prix</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.chargeVo?.libelle}}</td>
+                                        <td>{{p.prix}}</td>
+                                        <td>
+                                            <button (click)="deleteTarifCharges(p)" pButton type="button"
+                                                    icon="pi pi-times" class="p-button-rounded p-button-danger">
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+        </p-tabView>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+    <app-charge-create></app-charge-create>
+
+</p-dialog>

@@ -1,0 +1,37 @@
+<p-dialog [(visible)]="createRdvDialog" [style]="{width: '450px', height: '800px'}" header="Ajouter un Rendez-vous"
+          [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="2">Date Rdv<span style="color: red;"> *</span></label>
+            <p-calendar [showIcon]="true" (onSelect)="getSelectedDate()" id="2" showTime="true" [showSeconds]="true"
+                        [hourFormat]="24" [showButtonBar]="true" [(ngModel)]="selectedRdv.dateRdv" dateFormat="{{dateFormat}}"
+                        [ngClass]="{'ng-invalid ng-dirty' : !validRdvDateRdv}"></p-calendar>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedRdv.dateRdv">Date est obligatoire.</small>
+        </div>
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-10">
+                <label for="2" class="field col-12">Patient<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="patients" [(ngModel)]="selectedRdv.patientVo"
+                            id="3" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true"
+                            optionLabel="cin"
+                            placeholder="Patient" [ngClass]="{'ng-invalid ng-dirty' : !validRdvPatient}">
+                </p-dropdown>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedRdv.numeroRdv">Patient est obligatoire.</small>
+            </div>
+            <div class="field col-12 md:col-2">
+                <button pButton pRipple type="button" class="mr-2 mb-2 mt-6"
+                        icon="pi pi-plus" (click)="openCreatepatient('patient')"></button>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+    <app-patient-create></app-patient-create>
+
+</p-dialog>

@@ -1,0 +1,32 @@
+<p-dialog [(visible)]="editRdvDialog" [style]="{width: '450px', height: '800px'}" header="Add Rendez-vous" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="2">Date Rdv<span style="color: red;"> *</span></label>
+            <p-calendar [showIcon]="true" (onSelect)="getSelectedDate()" id="2" showTime="true" [showSeconds]="true"
+                        [hourFormat]="24" [showButtonBar]="true" [(ngModel)]="selectedRdv.dateRdv" dateFormat="{{dateFormat}}">
+
+            </p-calendar>
+        </div>
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-12">
+                <label for="2" class="field col-12">Patient<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="patients" [(ngModel)]="selectedRdv.patientVo"
+                            id="3" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true" optionLabel="cin" placeholder="Patient">
+                </p-dropdown>
+            </div>
+<!--            <div class="field col-12 md:col-6">-->
+<!--                <button pButton pRipple type="button" class="mr-2 mb-2"-->
+<!--                        icon="pi pi-plus" (click)="openCreatepatient('patient')"></button>-->
+<!--            </div>-->
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="edit()"></button>
+    </ng-template>
+
+    <app-patient-create></app-patient-create>
+
+</p-dialog>

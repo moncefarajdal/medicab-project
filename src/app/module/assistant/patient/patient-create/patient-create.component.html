@@ -1,0 +1,109 @@
+<p-dialog [(visible)]="createPatientDialog" [style]="{width: '70vw', height: '80vh'}" header="Ajouter un patient"
+          [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-4">
+                <label for="1">Nom<span style="color: red;"> *</span></label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Nom" id="1"
+                       [(ngModel)]="selectedPatient.nom" [ngClass]="{'ng-invalid ng-dirty' : !validPatientNom}"/>
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="2">Prenom<span style="color: red;"> *</span></label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Prenom" id="2"
+                       [(ngModel)]="selectedPatient.prenom" [ngClass]="{'ng-invalid ng-dirty' : !validPatientNom}"/>
+            </div>
+            <div class="field col-12 md:col-4">
+                <label for="3">Cin <span style="color: red;"> *</span></label>
+                <input type="text" pInputText id="3" [(ngModel)]="selectedPatient.cin" placeholder="CIN" required autofocus
+                       [ngClass]="{'ng-invalid ng-dirty' : !validPatientCin}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPatient.cin">Name is required.</small>
+            </div>
+            <div class="field col-6">
+                <label for="6">Date de naissance<span style="color: red;"> *</span></label>
+                <p-calendar id="6" placeholder="DD/MM/YYYY" [(ngModel)]="selectedPatient.dateNaissance"
+                            [showIcon]="true" [showButtonBar]="true"
+                            dateFormat="{{dateFormat}}"
+                            [ngClass]="{'ng-invalid ng-dirty' : !validPatientDateNaissance}">
+                </p-calendar>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted">Date is required.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="5">Adresse <span style="color: red;"> *</span></label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText
+                       placeholder="Adresse"
+                       id="5" [(ngModel)]="selectedPatient.adresse"
+                       [ngClass]="{'ng-invalid ng-dirty' : !validPatientAdresse}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPatient.cin">Name is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-5">
+                <label for="4">Telephone <span style="color: red;"> *</span></label>
+                <input type="text" pInputText id="4" [(ngModel)]="selectedPatient.telephone" placeholder="Telephone" required autofocus
+                       [ngClass]="{'ng-invalid ng-dirty' : !validPatientTelephone}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPatient.telephone">Name is
+                    required.</small>
+            </div>
+
+            <div class="field col-12 md:col-5">
+                <label for="7">Genre<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="sexes" [(ngModel)]="selectedPatient.sexeVo"
+                            id="7" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true"
+                            optionLabel="code"
+                            placeholder="Genre" [ngClass]="{'ng-invalid ng-dirty' : !validPatientSexe}">
+                </p-dropdown>
+                <small class='p-error' *ngIf='!validPatientSexe'>Sexe est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-2">
+                <button pButton pRipple type="button" class="p-button-primary one-colonne-btn-success-align mt-4"
+                        icon="pi pi-plus" (click)="openCreatesexe('sexe')"></button>
+            </div>
+
+            <div class="field col-12 md:col-2">
+                <label for="9">Mutualise<span style="color: red;"> *</span></label>
+                <div class="input-switch mt-2">
+                    <p-inputSwitch id="9" [(ngModel)]="selectedPatient.mutualise"></p-inputSwitch>
+                </div>
+<!--                <small class='p-error' *ngIf='!validPatientSexe'>Sexe est obligatoire.</small>-->
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="8">Mutuelle</label>
+                <p-dropdown [options]="mutuelles" [(ngModel)]="selectedPatient.mutuelleVo" id="8" [filter]="true"
+                            filterMatchMode="contains" [showClear]="true" optionLabel="code" placeholder="Mutuelle">
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-2">
+                <button pButton pRipple type="button" class="p-button-primary one-colonne-btn-success-align mt-4"
+                        icon="pi pi-plus" (click)="openCreatemutuelle('mutuelle')"></button>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="10">Source</label>
+                <p-dropdown [options]="sources" [(ngModel)]="selectedPatient.sourceVo" id="10" [filter]="true"
+                            filterMatchMode="contains" [showClear]="true" optionLabel="libelle" placeholder="Source">
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-2">
+                <button pButton pRipple type="button" class="p-button-primary one-colonne-btn-success-align mt-4"
+                        icon="pi pi-plus" (click)="openCreatesource('source')"></button>
+            </div>
+
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+    <app-gender-create></app-gender-create>
+    <app-mutuelle-create></app-mutuelle-create>
+    <app-source-create></app-source-create>
+
+</p-dialog>

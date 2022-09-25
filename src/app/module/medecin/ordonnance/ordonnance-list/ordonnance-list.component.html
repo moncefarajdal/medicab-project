@@ -1,0 +1,111 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2" (click)="openCreateOrdonnance('ordonnance')"></button>
+                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Recherche" icon="pi pi-{{findByCriteriaShow?'angle-down':'angle-right'}}"
+                            class="p-button-success mr-2 p-mb-2" (click)="this.findByCriteriaShow = !this.findByCriteriaShow">
+                    </button>
+                    <p-splitButton label="Exporter" icon="pi pi-download" styleClass="p-button-help" [model]="excelPdfButons"></p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-toolbar styleClass="mb-4" *ngIf="findByCriteriaShow">
+                <div class="p-fluid p-formgrid grid">
+<!--                    <span class="field col-12 md:col-3">-->
+<!--                        <input class="p-mr-2" pInputText id="1" type="text" placeholder="Reference"  [(ngModel)]="searchOrdonnance.reference">-->
+<!--                        &lt;!&ndash;                        <label for="1">Reference</label>&ndash;&gt;-->
+<!--                    </span>-->
+
+                    <span class="field col-12 md:col-4">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchOrdonnance.dateOrdonnanceMin" id="2-1"
+                                    dateFormat="dd-MM-yy" placeholder="Date d'ordonnance Min"></p-calendar>
+                        <!--                        <label for="2-1">Date consultation Min</label>-->
+                    </span>
+
+                    <span class="field col-12 md:col-4">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchOrdonnance.dateOrdonnanceMax" id="2-2"
+                                    dateFormat="dd-MM-yy" placeholder="Date d'ordonnance Max"></p-calendar>
+                        <!--                        <label for="2-2">Date consultation Max</label>-->
+                    </span>
+
+                    <span class="field col-12 md:col-4">
+                        <p-dropdown [options]="consultations" [(ngModel)]="searchOrdonnance.consultationVo"
+                                    id="3" [filter]="true" [showClear]="true"  placeholder="Consultation" optionLabel="libelle">
+                        </p-dropdown>
+                    </span>
+
+                </div>
+
+                <div class="field col-12 md:col-3">
+                    <button pButton pRipple label="Valider" icon="pi pi-sort-amount-down"
+                            class="p-button-help" (click)="searchRequest()"></button>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt [value]="ordonnances" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['reference', 'dateOrdonnance', 'reference', 'archive', 'dateArchivage', 'dateCreation']" [(selection)]="selectedOrdonnance"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [showCurrentPageReport]="false">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste Des Ordonnances</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Chercher..." (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+<!--                        <th pSortableColumn="reference">Reference<p-sortIcon field="reference"></p-sortIcon></th>-->
+                        <th pSortableColumn="dateOrdonnance">Date d'ordonnance<p-sortIcon field="dateOrdonnance"></p-sortIcon></th>
+                        <th pSortableColumn="dateOrdonnance">Description<p-sortIcon field="dateOrdonnance"></p-sortIcon></th>
+                        <th pSortableColumn="consultation">Consultation<p-sortIcon field="consultation"></p-sortIcon></th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-ordonnance>
+                    <tr>
+                        <td><p-tableCheckbox [value]="ordonnance"></p-tableCheckbox></td>
+                        <td style="width:14%; min-width:20rem;">{{ordonnance.dateOrdonnance | date:'dd-M-yyyy' }}</td>
+                        <td style="width:14%; min-width:20rem;">{{ordonnance.description}}</td>
+                        <td style="width:14%; min-width:20rem;">{{ordonnance.consultationVo?.reference}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editOrdonnance(ordonnance)"></button>
+                                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary mr-2" (click)="viewOrdonnance(ordonnance)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" (click)="deleteOrdonnance(ordonnance)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale il {{ordonnances ? ordonnances.length == 1 ?
+                        'y a' : 'y a' : 'y a' }} {{ordonnances ? ordonnances.length : 0 }} {{ordonnances ?
+                        ordonnances.length == 1 ? 'consultation' : 'consultations' : 0 }}.
+                    </div>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <app-ordonnance-create></app-ordonnance-create>
+        <app-ordonnance-edit></app-ordonnance-edit>
+        <app-ordonnance-view></app-ordonnance-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>

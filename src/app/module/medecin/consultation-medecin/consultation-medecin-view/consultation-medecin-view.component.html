@@ -1,0 +1,180 @@
+<p-dialog [(visible)]="viewConsultationDialog" [style]="{width: '70vw', height: '80vh'}" [modal]="true" class="p-fluid"
+          [maximizable]="true" header="Details de la consultation" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <p-tabView>
+            <p-tabPanel header="Consultation">
+                <div class="field">
+                    <label for="1">Reference</label>
+                    <input type="text" pInputText id="1" placeholder="Reference"
+                           [(ngModel)]="selectedConsultation.reference" [disabled]="true">
+                </div>
+
+                <div class="field">
+                    <label for="2">Date de consultation</label>
+                    <p-calendar id="2" placeholder="Date de consultation" [showIcon]="true" id="2"
+                                [showButtonBar]="true" [(ngModel)]="selectedConsultation.dateConsultation"
+                                dateFormat="{{dateFormat}}" [disabled]="true">
+                    </p-calendar>
+                </div>
+
+                <div class="field">
+                    <label for="3">Montant</label>
+                    <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Montant" [disabled]="true"
+                                   [(ngModel)]="selectedConsultation.tarif" [showButtons]="true" [min]="0">
+                    </p-inputNumber>
+                </div>
+
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="4">Type de Consultation</label>
+                        <p-dropdown [options]="typeConsultations" [(ngModel)]="selectedConsultation.typeConsultationVo"
+                                    id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                    [disabled]="true"
+                                    optionLabel="libelle" placeholder="Type consultation">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="5">Patient</label>
+                        <p-dropdown [options]="patients" [(ngModel)]="selectedConsultation.patientVo"
+                                    id="5" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                    optionLabel="cin" placeholder="Patient" [disabled]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Les constante de la consultation">
+                <p-tabView>
+                    <p-tabPanel header="Liste">
+<!--                        <div class="card">-->
+                            <p-table [value]="selectedConsultation.constanteConsultationsVo" [scrollable]="true"
+                                     scrollHeight="200px">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Constante</th>
+                                        <th>Valeur</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.constanteVo?.libelle}}</td>
+                                        <td>{{p.valeur}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+<!--                        </div>-->
+
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+
+<!--            <p-tabPanel header="Ordonnances">-->
+<!--                <p-tabView>-->
+<!--                    <p-tabPanel header="Liste">-->
+<!--                        <div class="card">-->
+<!--                            <p-table [value]="selectedConsultation.ordonnancesVo" [scrollable]="true"-->
+<!--                                     scrollHeight="200px">-->
+<!--                                <ng-template pTemplate="header">-->
+<!--                                    <tr>-->
+<!--                                        <th>Reference</th>-->
+<!--                                        <th>Description</th>-->
+<!--                                        <th>Date ordonnance</th>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                                <ng-template pTemplate="body" let-p>-->
+<!--                                    <tr>-->
+<!--                                        <td>{{p.reference}}</td>-->
+<!--                                        <td>{{p.description}}</td>-->
+<!--                                        <td>{{p.dateOrdonnance | date: dateFormatColumn}}</td>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                            </p-table>-->
+<!--                        </div>-->
+<!--                    </p-tabPanel>-->
+<!--                </p-tabView>-->
+<!--            </p-tabPanel>-->
+
+            <p-tabPanel header="Prescriptions">
+                <div id="invoice" #invoice class="px-8 py-6">
+                    <div class="d-flex justify-content-center container pb-6">
+                        <h3>Prescription Médicale</h3>
+                    </div>
+                    <div class="container pb-6">
+                        <div class="row">
+                            <div class="col float-start">
+                                <p style="color: #0b5ed7; font-weight: bold;">Docteur ARAJDAL Ibtissam<br>
+                                    Médecine spécialiste du genou</p>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex flex-column align-items-end">
+                                    <p style="color: #0b5ed7; font-weight: bold;">Espace Al Mostafa 3ème étage
+                                        <br>bureau N°11 Lamhita Gueliz
+                                        <br>Marrakech - MAROC</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="pb-2">-->
+<!--                        <p>Je soussigné Docteur en médecine : ARAJDAL Ibtissam</p>-->
+<!--                    </div>-->
+<!--                    <div class="pb-2">-->
+<!--                        <p>Certifie avoir examine ce jour M. / Mme / Melle:</p>-->
+<!--                    </div>-->
+                    <div class="d-flex flex-row-reverse pb-6">
+                        <p>Marrakech, le {{selectedConsultation.dateConsultation | date:'dd-MM-yyyy'}}</p>
+                    </div>
+                    <div class="d-flex flex-row pb-6">
+                        <div class="py-2 pr-8">
+                            <p>M. / Mme / Melle: {{selectedConsultation.patientVo?.nom}}
+                            {{selectedConsultation.patientVo?.prenom}}</p>
+                        </div>
+                    </div>
+                    <div class=" d-flex justify-content-between pb-2" *ngFor="let p of selectedConsultation.prescriptionsVo">
+                        <p>{{p.medicamentVo?.libelle}}</p>
+                        <p>{{p.nbreFois.toString().substr(0, 1)}} fois, {{p.qteMedicament.toString().substr(0, 2)}} jours.</p>
+                    </div>
+                    <!--                            <div class="d-flex flex-row pb-2" *ngFor="let p of prescriptionsListe">-->
+                    <!--                                <div class="py-2 pr-8"><p>Nom : {{p.medicamentVo.libelle}}</p></div>-->
+                    <!--                            </div>-->
+
+                    <div class="d-flex justify-content-end pt-8">
+                        <p>Signature :</p>
+                    </div>
+                </div>
+<!--                <p-tabView>-->
+<!--                    <p-tabPanel header="Liste">-->
+<!--                        <div class="card">-->
+<!--                            <p-table [value]="selectedConsultation.prescriptionsVo" [scrollable]="true"-->
+<!--                                     scrollHeight="200px">-->
+<!--                                <ng-template pTemplate="header">-->
+<!--                                    <tr>-->
+<!--                                        <th>Medicament</th>-->
+<!--                                        <th>Nombre de fois</th>-->
+<!--                                        <th>Durée</th>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                                <ng-template pTemplate="body" let-p>-->
+<!--                                    <tr>-->
+<!--                                        <td>{{p.medicamentVo?.libelle}}</td>-->
+<!--                                        <td>{{p.nbreFois}}</td>-->
+<!--                                        <td>{{p.qteMedicament}} jours</td>-->
+<!--                                    </tr>-->
+<!--                                </ng-template>-->
+<!--                            </p-table>-->
+<!--                        </div>-->
+<!--                    </p-tabPanel>-->
+<!--                </p-tabView>-->
+
+            </p-tabPanel>
+
+        </p-tabView>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideViewDialog()"></button>
+        <button pButton pRipple label="Telecharger" icon="pi pi-download" class="p-button-text"
+                (click)="generatePDF()"></button>
+    </ng-template>
+
+</p-dialog>

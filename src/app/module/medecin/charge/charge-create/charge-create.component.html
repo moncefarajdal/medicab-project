@@ -1,0 +1,52 @@
+<p-dialog [(visible)]="createChargeDialog" [style]="{width: '450px'}" header="Ajouter une charge" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+<!--        <div class="field">-->
+<!--            <label for="1">Reference <span style="color: red;"> *</span></label>-->
+<!--            <input type="text" pInputText id="1" [(ngModel)]="selectedSupplement.reference" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validSupplementReference}"/>-->
+<!--            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedSupplement.reference">Name is required.</small>-->
+<!--        </div>-->
+
+        <div class="field">
+            <label for="2">Libelle <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="2" [(ngModel)]="selectedCharge.libelle" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validChargeLibelle}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedCharge.libelle">Libelle is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="9">Fixe<span style="color: red;"> *</span></label>
+            <div class="input-switch mt-2">
+                <p-inputSwitch id="9" [(ngModel)]="selectedCharge.fixe"></p-inputSwitch>
+            </div>
+        </div>
+
+<!--        <div class="field">-->
+<!--            <label for="4">Type de la charge<span style="color: red;"> *</span></label>-->
+<!--            <p-dropdown [options]="typeCharges" [(ngModel)]="selectedCharge.typeChargeVo"-->
+<!--                        id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"-->
+<!--                        optionLabel="libelle"-->
+<!--                        placeholder="Type charge">-->
+<!--            </p-dropdown>-->
+<!--        </div>-->
+
+<!--        <div class="field">-->
+<!--            <button pButton pRipple type="button"-->
+<!--                    icon="pi pi-plus" (click)="openCreatetypeCharge('typeCharge')"-->
+<!--                    class="p-button-primary one-colonne-btn-success-align mt-4"></button>-->
+<!--        </div>-->
+
+<!--        <div class="field">-->
+<!--            <label for="3">Description</label>-->
+<!--            <textarea id="3" pInputTextarea rows="5" cols="30"-->
+<!--                      placeholder="Description"  [(ngModel)]="selectedCharge.description"-->
+<!--            ></textarea>-->
+<!--        </div>-->
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+    <app-type-charge-create></app-type-charge-create>
+
+</p-dialog>

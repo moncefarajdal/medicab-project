@@ -1,0 +1,20 @@
+<p-dialog [(visible)]="createTypeConsultationDialog" [style]="{width: '450px'}" header="Ajouter un type de consultation" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="2">Libelle <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="2" placeholder="Libelle" [(ngModel)]="selectedTypeConsultation.libelle" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validTypeConsultationLibelle}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedTypeConsultation.libelle">Libelle is required.</small>
+        </div>
+        <div class="field">
+            <label for="3">Tarif <span style="color: red;"> *</span></label>
+            <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Tarif" [(ngModel)]="selectedTypeConsultation.tarif" [ngClass]="{'ng-invalid ng-dirty' : !validTypeConsultationTarif}" [showButtons]="true" [min]="0">
+            </p-inputNumber>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedTypeConsultation.tarif">Tarif is required.</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+</p-dialog>

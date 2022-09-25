@@ -1,0 +1,129 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2"
+                                (click)="openCreateRdv('rdv')"></button>
+                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger"
+                                (click)="deleteSelectedRdvs()"
+                                [disabled]="!selectedRdvs || !selectedRdvs.length"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Recherche" icon="pi pi-{{findByCriteriaShow?'angle-down':'angle-right'}}"
+                            class="p-button-success mr-2 p-mb-2" (click)="this.findByCriteriaShow = !this.findByCriteriaShow"></button>
+                    <p-splitButton label="Exporter" icon="pi pi-download" styleClass="p-button-help" [model]="excelPdfButons">
+                    </p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-toolbar styleClass="mb-4" *ngIf="findByCriteriaShow">
+                <div class="flex">
+<!--                    <span class=" p-float-label mr-3 align-search-items p-mt-4">-->
+<!--                        <input class="p-mr-2" pInputText id="1" type="text" [(ngModel)]="searchRdv.numeroRdv">-->
+<!--                        <label for="1">Numero rdv</label>-->
+<!--                    </span>-->
+
+                    <span class=" p-float-label mr-3 align-search-items p-mt-4">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchRdv.dateRdvMin" id="2-1" dateFormat="dd-MM-yy"></p-calendar>
+                        <label for="2-1">Date rdv Min</label>
+                    </span>
+
+                    <span class=" p-float-label mr-3 align-search-items p-mt-4">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchRdv.dateRdvMax" id="2-2" dateFormat="dd-MM-yy"></p-calendar>
+                        <label for="2-2">Date rdv Max</label>
+                    </span>
+
+                    <span class=" p-float-label mr-3 align-search-items p-mt-4">
+                        <p-dropdown [options]="patients" [(ngModel)]="searchRdv.patientVo" id="3"
+                                    [filter]="true" [showClear]="true" placeholder="Patient" optionLabel="cin">
+                        </p-dropdown>
+                    </span>
+                </div>
+
+                <div class="align-search-button">
+                    <button pButton pRipple label="Valider" icon="pi pi-sort-amount-down"
+                            class="p-button-help" (click)="searchRequest()"></button>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt [value]="rdvs" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['numeroRdv', 'dateRdv', 'cin', 'presence', 'archive', 'dateArchivage', 'dateCreation']"
+                     [(selection)]="selectedRdv"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [showCurrentPageReport]="false">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Rendez-Vous</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Chercher..." (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+<!--                        <th pSortableColumn="code">Numero-->
+<!--                            <p-sortIcon field="code"></p-sortIcon>-->
+<!--                        </th>-->
+                        <th pSortableColumn="name">Date
+                            <p-sortIcon field="dateRdv"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="name">Patient
+                            <p-sortIcon field="patient"></p-sortIcon>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rdv>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="rdv"></p-tableCheckbox>
+                        </td>
+<!--                        <td>{{rdv.numeroRdv}}</td>-->
+                        <td>{{rdv.dateRdv | date:'dd-M-yyyy' }}</td>
+                        <td>{{rdv.patientVo?.cin}}</td>
+                        <!--                        <td><i *ngIf="rdv.presence" class="pi pi-check checked-toogle"></i>-->
+                        <!--                            <i *ngIf="!rdv.presence" class="pi pi-times unchecked-toogle"></i>-->
+                        <!--                        </td>-->
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2" (click)="editRdv(rdv)"></button>
+                                <button pButton pRipple icon="pi pi-eye"
+                                        class="p-button-rounded p-button-secondary mr-2"
+                                        (click)="viewRdv(rdv)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="deleteRdv(rdv)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale il
+                        {{rdvs ? rdvs.length == 1 ? 'y a' : 'y a' : 'y a' }} {{rdvs ? rdvs.length : 0 }}
+                        {{rdvs ? rdvs.length == 1 ? 'rdv' : 'rdvs' : 0 }}.
+                    </div>
+                </ng-template>
+            </p-table>
+
+        </div>
+
+        <app-rdv-create></app-rdv-create>
+        <app-rdv-edit></app-rdv-edit>
+        <app-rdv-view></app-rdv-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>
+

@@ -1,0 +1,164 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2"
+                                (click)="openCreatePatient('patient')"></button>
+                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger"
+                                (click)="deleteSelectedPatients()"
+                                [disabled]="!selectedPatients || !selectedPatients.length"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Recherche" icon="pi pi-{{findByCriteriaShow?'angle-down':'angle-right'}}"
+                            class="p-button-success mr-2 p-mb-2" (click)="this.findByCriteriaShow = !this.findByCriteriaShow">
+                    </button>
+                    <p-splitButton label="Exporter" icon="pi pi-download" styleClass="p-button-help" [model]="excelPdfButons">
+                    </p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-toolbar styleClass="mb-4" *ngIf="findByCriteriaShow">
+                <div class="p-fluid p-formgrid grid">
+                    <span class="field col-12 md:col-3">
+                        <label for="1">Cin</label>
+                        <input class="p-mr-2" pInputText id="1" type="text" [(ngModel)]="searchPatient.cin">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="2">Nom</label>
+                        <input class="p-mr-2" pInputText id="2" type="text" [(ngModel)]="searchPatient.nom">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="3">Prenom</label>
+                        <input class="p-mr-2" pInputText id="3" type="text" [(ngModel)]="searchPatient.prenom">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="4-1">Date naissance Min</label>
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchPatient.dateNaissanceMin"
+                                id="4-1" dateFormat="dd-MM-yy"></p-calendar>
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="4-2">Date naissance Max</label>
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchPatient.dateNaissanceMax"
+                                id="4-2" dateFormat="dd-MM-yy"></p-calendar>
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="4-2">Genre</label>
+                        <p-dropdown [options]="sexes" [(ngModel)]="searchPatient.sexeVo" id="5"
+                                    [filter]="true" [showClear]="true" placeholder="Sexe" optionLabel="code">
+                        </p-dropdown>
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="6">Adresse</label>
+                        <input class="p-mr-2" pInputText id="6" type="text" [(ngModel)]="searchPatient.adresse">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <label for="7">Telephone</label>
+                        <input class="p-mr-2" pInputText id="7" type="text" [(ngModel)]="searchPatient.telephone">
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <p-dropdown id="9" [options]="yesOrNoMutualise" [(ngModel)]="searchPatient.mutualise"
+                                    [filter]="false" [showClear]="true" placeholder="Mutualise" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </span>
+                    <span class="field col-12 md:col-3">
+                        <p-dropdown [options]="mutuelles" [(ngModel)]="searchPatient.mutuelleVo" id="10"
+                                    [filter]="true" [showClear]="true" placeholder="Mutuelle" optionLabel="code">
+                        </p-dropdown>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <button pButton pRipple label="Valider" icon="pi pi-sort-amount-down"
+                            class="p-button-help" (click)="searchRequest()"></button>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt [value]="patients" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['cin', 'nom', 'prenom', 'dateNaissance', 'code', 'adresse', 'telephone', 'numeroCnss', 'mutualise', 'code', 'archive', 'dateArchivage', 'dateCreation']"
+                     [(selection)]="selectedPatient"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [showCurrentPageReport]="false">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste Des Patients</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Chercher..." (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="cin">CIN
+                            <p-sortIcon field="cin"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="nom">Nom
+                            <p-sortIcon field="nom"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="prenom">Prenom
+                            <p-sortIcon field="prenom"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dateNaissance">Date De Naissance
+                            <p-sortIcon field="dateNaissance"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="sexe">Genre
+                            <p-sortIcon field="sexe"></p-sortIcon>
+                        </th>
+                        <!--                        <th pSortableColumn="adresse">Adresse<p-sortIcon field="adresse"></p-sortIcon></th>-->
+                        <!--                        <th pSortableColumn="telephone">Telephone<p-sortIcon field="telephone"></p-sortIcon></th>-->
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-patient>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="patient"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">{{patient.cin}}</td>
+                        <td style="width:14%; min-width:10rem;">{{patient.nom}}</td>
+                        <td style="width:14%; min-width:10rem;">{{patient.prenom}}</td>
+                        <td style="width:14%; min-width:10rem;">{{patient.dateNaissance | date:'dd-M-yyyy' }}</td>
+                        <td style="width:14%; min-width:10rem;">{{patient.sexeVo?.code}}</td>
+                        <!--                        <td style="width:14%; min-width:10rem;">{{patient.telephone}}</td>-->
+                        <!--                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Male</span>Male</td>-->
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="editPatient(patient)"></button>
+                                <button pButton pRipple icon="pi pi-eye"
+                                        class="p-button-rounded p-button-secondary mr-2"
+                                        (click)="viewPatient(patient)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="deletePatient(patient)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale il {{patients ? patients.length == 1 ?
+                        'y a' : 'y a' : 'y a' }} {{patients ? patients.length : 0 }} {{patients ?
+                        patients.length == 1 ? 'patient' : 'patients' : 0 }}.
+                    </div>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <app-patient-create></app-patient-create>
+        <app-patient-edit></app-patient-edit>
+        <app-patient-view></app-patient-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>
+

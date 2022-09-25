@@ -1,0 +1,43 @@
+<p-dialog [(visible)]="viewPrescriptionDialog" [style]="{width: '650px', height: '1000px'}" header="Ajouter une prescription"
+          [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-12">
+                <label for="1">Reference</label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Reference" id="1"
+                       [(ngModel)]="selectedPrescription.reference" [disabled]="true">
+            </div>
+
+            <div class="field col-12 md:col-10">
+                <label for="2">Medicament</label>
+                <p-dropdown [options]="medicaments" [(ngModel)]="selectedPrescription.medicamentVo"
+                            id="2" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true" optionLabel="libelle" placeholder="Medicament" [disabled]="true">
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="3">Quantite Medicament </label>
+                <input type="text" pInputText placeholder="Quantite Medicament" id="3" [(ngModel)]="selectedPrescription.qteMedicament" [disabled]="true">
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="4">Nombre de fois </label>
+                <input type="text" placeholder="Nombre de fois" pInputText id="4" [(ngModel)]="selectedPrescription.nbreFois" [disabled]="true">
+            </div>
+
+            <div class="field col-12 md:col-12">
+                <label for="7">Genre</label>
+                <p-dropdown [options]="ordonnances" [(ngModel)]="selectedPrescription.ordonnanceVo"
+                            id="7" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                            optionLabel="reference" placeholder="Ordonnance" [disabled]="true">
+                </p-dropdown>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideViewDialog()"></button>
+    </ng-template>
+</p-dialog>

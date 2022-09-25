@@ -1,0 +1,72 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openCreateTypeConsultation('typeConsultation')"></button>
+                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <p-splitButton label="Export" icon="pi pi-download" styleClass="p-button-help" [model]="excelPdfButons"></p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="typeConsultations" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['libelle', 'code', 'tarif', 'archive', 'dateArchivage', 'dateCreation']" [(selection)]="selectedTypeConsultation"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Types des consultations</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Search...">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                        <th pSortableColumn="code">Code<p-sortIcon field="code"></p-sortIcon></th>
+                        <th pSortableColumn="libelle">Libelle<p-sortIcon field="libelle"></p-sortIcon></th>
+                        <th pSortableColumn="terif">Tarif<p-sortIcon field="tarif"></p-sortIcon></th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-typeConsultation>
+                    <tr>
+                        <td><p-tableCheckbox [value]="typeConsultation"></p-tableCheckbox></td>
+                        <td>{{typeConsultation.code}}</td>
+                        <td>{{typeConsultation.libelle}}</td>
+                        <td>{{typeConsultation.tarif}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTypeConsultation(typeConsultation)"></button>
+                                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-secondary mr-2" (click)="viewTypeConsultation(typeConsultation)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteTypeConsultation(typeConsultation)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale il
+                        {{typeConsultations ? typeConsultations.length == 1 ? 'y a' : 'y a' : 'y a' }} {{typeConsultations ? typeConsultations.length : 0 }}
+                        {{typeConsultations ? typeConsultations.length == 1 ? 'rdv' : 'rdvs' : 0 }}.
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <app-type-consultation-create></app-type-consultation-create>
+        <app-type-consultation-edit></app-type-consultation-edit>
+        <app-type-consultation-view></app-type-consultation-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>
+

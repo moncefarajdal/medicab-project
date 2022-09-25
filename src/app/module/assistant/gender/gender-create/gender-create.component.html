@@ -1,0 +1,21 @@
+<p-dialog [(visible)]="createSexeDialog" [style]="{width: '450px'}" header="Ajouter un genre" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="1">Code <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="1" [(ngModel)]="selectedSexe.code" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validRdvNumeroRdv}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedSexe.code">Code is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="2">Libelle <span style="color: red;"> *</span></label>
+            <input type="text" pInputText id="2" [(ngModel)]="selectedSexe.libelle" required autofocus [ngClass]="{'ng-invalid ng-dirty' : !validRdvNumeroRdv}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedSexe.libelle">Libelle is required.</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+</p-dialog>

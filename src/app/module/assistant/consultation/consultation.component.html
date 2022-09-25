@@ -1,0 +1,173 @@
+<div class="grid">
+    <div class="col-12">
+
+<!--        <div class="card-no-bg">-->
+<!--            <p-breadcrumb [model]="breadcrumbItems" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>-->
+<!--        </div>-->
+
+        <div class="card">
+
+<!--            <p-breadcrumb class="mb-4" [model]="breadcrumbItems" [home]="{icon: 'pi pi-home'}"></p-breadcrumb>-->
+
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2"
+                                (click)="openCreateConsultation('consultation')"></button>
+                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger"
+                                (click)="deleteSelectedConsultations()"
+                                [disabled]="!selectedConsultations || !selectedConsultations.length"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Recherche"
+                            icon="pi pi-{{findByCriteriaShow?'angle-down':'angle-right'}}"
+                            class="p-button-success mr-2 p-mb-2"
+                            (click)="this.findByCriteriaShow = !this.findByCriteriaShow">
+                    </button>
+                    <p-splitButton label="Exporter" icon="pi pi-download" styleClass="p-button-help"
+                                   [model]="excelPdfButons"></p-splitButton>
+                </ng-template>
+            </p-toolbar>
+
+            <p-toolbar styleClass="mb-4" *ngIf="findByCriteriaShow">
+                <div class="p-fluid p-formgrid grid">
+<!--                    <span class="field col-12 md:col-3">-->
+<!--                        <input class="p-mr-2" pInputText id="1" type="text" placeholder="Reference"-->
+<!--                               [(ngModel)]="searchConsultation.reference">-->
+<!--                        &lt;!&ndash;                        <label for="1">Reference</label>&ndash;&gt;-->
+<!--                    </span>-->
+
+                    <span class="field col-12 md:col-3">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchConsultation.dateConsultationMin" id="2-1"
+                                    dateFormat="dd-MM-yy" placeholder="Date consultation Min"></p-calendar>
+                        <!--                        <label for="2-1">Date consultation Min</label>-->
+                    </span>
+
+                    <span class="field col-12 md:col-3">
+                        <p-calendar class="p-mr-2" [(ngModel)]="searchConsultation.dateConsultationMax" id="2-2"
+                                    dateFormat="dd-MM-yy" placeholder="Date consultation Max"></p-calendar>
+                        <!--                        <label for="2-2">Date consultation Max</label>-->
+                    </span>
+
+                    <span class="field col-12 md:col-3">
+                        <p-dropdown [options]="typeConsultations" [(ngModel)]="searchConsultation.typeConsultationVo"
+                                    id="3" [filter]="true" [showClear]="true" placeholder="Type consultation"
+                                    optionLabel="libelle">
+                        </p-dropdown>
+                    </span>
+
+                    <span class="field col-12 md:col-3">
+                        <p-dropdown [options]="patients" [(ngModel)]="searchConsultation.patientVo" id="4"
+                                    [filter]="true" [showClear]="true" placeholder="Patient" optionLabel="cin">
+                        </p-dropdown>
+                    </span>
+
+                    <span class="field col-12 md:col-3">
+                        <p-inputNumber class="p-mr-2" mode="decimal" [(ngModel)]="searchConsultation.tarifMin"
+                                       id="5-1" placeholder="Tarif Min"></p-inputNumber>
+                        <!--                        <label for="5-1">Tarif Min</label>-->
+                    </span>
+
+                    <span class="field col-12 md:col-3">
+                        <p-inputNumber class="p-mr-2" mode="decimal" [(ngModel)]="searchConsultation.tarifMax"
+                                       id="5-2" placeholder="Tarif Max"></p-inputNumber>
+                        <!--                        <label for="5-2">Tarif Max</label>-->
+                    </span>
+                </div>
+
+                <div class="field col-12 md:col-3">
+                    <button pButton pRipple label="Valider" icon="pi pi-sort-amount-down"
+                            class="p-button-help" (click)="searchRequest()"></button>
+                </div>
+            </p-toolbar>
+
+            <p-table #dt [value]="consultations" [columns]="cols" [rows]="4" [paginator]="true"
+                     [globalFilterFields]="['reference', 'dateConsultation', 'libelle', 'cin', 'tarif', 'mutualise', 'code', 'archive', 'dateArchivage', 'dateCreation']"
+                     [(selection)]="selectedConsultation"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     [(selection)]="selectedConsultations" selectionMode="multiple">
+
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste Des Consultations</h5>
+                        <span class="p-input-icon-right block">
+                            <input type="text" pInputText placeholder="Chercher..."
+                                   (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+<!--                        <th pSortableColumn="reference">Reference-->
+<!--                            <p-sortIcon field="reference"></p-sortIcon>-->
+<!--                        </th>-->
+                        <th pSortableColumn="ID">ID
+                            <p-sortIcon field="ID"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="tarif">Tarif
+                            <p-sortIcon field="tarif"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dateConsultation">Date de consultation
+                            <p-sortIcon field="dateConsultation"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="typeConsultation">Type de consultation
+                            <p-sortIcon field="typeConsultation"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="patient">Patient
+                            <p-sortIcon field="patient"></p-sortIcon>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-consultation>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="consultation"></p-tableCheckbox>
+                        </td>
+<!--                        <td style="width:14%; min-width:10rem;">{{consultation.reference}}</td>-->
+                        <td style="width:14%; min-width:10rem;">{{consultation.id}}</td>
+                        <td style="width:14%; min-width:10rem;">{{consultation.tarif}}</td>
+                        <td style="width:14%; min-width:10rem;">{{consultation.dateConsultation | date:'dd-M-yyyy' }}</td>
+                        <td style="width:14%; min-width:10rem;">{{consultation.typeConsultationVo?.libelle}}</td>
+                        <td style="width:14%; min-width:10rem;">{{consultation.patientVo?.cin}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="editConsultation(consultation)"></button>
+                                <button pButton pRipple icon="pi pi-eye"
+                                        class="p-button-rounded p-button-secondary mr-2"
+                                        (click)="viewConsultation(consultation)"></button>
+                                <button pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-danger"
+                                        (click)="deleteConsultation(consultation)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">En totale
+                        il {{consultations ? consultations.length == 1 ?
+                            'y a' : 'y a' : 'y a' }} {{consultations ? consultations.length : 0 }} {{consultations ?
+                            consultations.length == 1 ? 'consultation' : 'consultations' : 0 }}.
+                    </div>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <app-consultation-create></app-consultation-create>
+        <app-consultation-edit></app-consultation-edit>
+        <app-consultation-view></app-consultation-view>
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+    </div>
+</div>

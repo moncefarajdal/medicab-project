@@ -1,0 +1,166 @@
+<div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
+        <div class="col-12 mt-5 xl:mt-0 text-center">
+<!--            <img src="assets/layout/images/logo-dark.svg" alt="Sakai logo" class="mb-5" style="width:81px; height:60px;">-->
+        </div>
+        <div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Bienvenue, Chez Medi<strong>Cab</strong></div>
+                    <span class="text-600 font-medium">Veuillez vous se connecter pour continuer</span>
+                </div>
+
+                <div class="w-full md:w-10 mx-auto" [formGroup]="loginForm" (ngSubmit)="loginForm">
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Nom d'utilisateur</label>
+                    <input id="email1" type="text" placeholder="Nom d'utilisateur" pInputText formControlName="username" required autofocus class="w-full mb-3" style="padding:1rem;">
+
+                    <label for="password" class="block text-900 text-xl font-medium mb-2">Mot de passe</label>
+                    <input id="password" type="password" placeholder="Mot de passe" pInputText formControlName="password" class="w-full mb-3" style="padding:1rem;"/>
+
+                    <!--                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>-->
+                    <!--                    <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="w-full mb-3"></p-password>-->
+
+                    <div class="flex align-items-center justify-content-between mb-5">
+                        <div class="flex align-items-center">
+                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                            <label for="rememberme1">  Se souvenir de moi</label>
+                        </div>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">mot de passe oublié?</a>
+                    </div>
+                    <button pButton pRipple label="Se connecter" class="w-full p-3 text-xl" (click)="submit()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="flex flex-wrap shadow-2">-->
+<!--    <div class="w-full lg:w-6 p-4 lg:p-7 bg-blue-50">-->
+<!--        <div class="product-item">-->
+<!--            <div class="product-item-content"><img id="j_idt150:blockViewerForm:j_idt152"-->
+<!--                                                   src="/primeblocks-jsf/javax.faces.resource/images/blocks/logos/bastion-700.svg.xhtml?ln=primeblocks-app"-->
+<!--                                                   class="mb-6" alt="Image" height="35">-->
+<!--                <div id="j_idt150:blockViewerForm:j_idt153" class="ui-carousel ui-widget ui-carousel-horizontal">-->
+<!--                    <div class="ui-carousel-content">-->
+<!--                        <div class="ui-carousel-container">-->
+<!--                            <button class="ui-carousel-prev ui-link ui-state-disabled" type="button"-->
+<!--                                    disabled="disabled"><span class="ui-carousel-prev-icon pi pi-chevron-left"></span>-->
+<!--                            </button>-->
+<!--                            <div class="ui-carousel-items-content" style="height:auto">-->
+<!--                                <div class="ui-carousel-items-container ui-items-hidden"-->
+<!--                                     style="transform: translate3d(0%, 0px, 0px);">-->
+<!--                                    <div-->
+<!--                                        class="ui-carousel-item ui-carousel-item-active ui-carousel-item-start ui-carousel-item-end">-->
+<!--                                        <div class="text-center mb-8"><img-->
+<!--                                            id="j_idt150:blockViewerForm:j_idt153:0:j_idt155"-->
+<!--                                            src="/primeblocks-jsf/javax.faces.resource/images/blocks/illustration/live-collaboration.svg.xhtml?ln=primeblocks-app"-->
+<!--                                            class="mb-6 w-6" alt="Image">-->
+<!--                                            <div class="mx-auto font-medium text-xl mb-4 text-blue-900">Unlimited-->
+<!--                                                Inbox-->
+<!--                                            </div>-->
+<!--                                            <p class="m-0 text-blue-700 line-height-3">Lorem ipsum dolor sit amet,-->
+<!--                                                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore-->
+<!--                                                et dolore magna aliqua.</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="ui-carousel-item">-->
+<!--                                        <div class="text-center mb-8"><img-->
+<!--                                            id="j_idt150:blockViewerForm:j_idt153:1:j_idt155"-->
+<!--                                            src="/primeblocks-jsf/javax.faces.resource/images/blocks/illustration/security.svg.xhtml?ln=primeblocks-app"-->
+<!--                                            class="mb-6 w-6" alt="Image">-->
+<!--                                            <div class="mx-auto font-medium text-xl mb-4 text-blue-900">Data Security-->
+<!--                                            </div>-->
+<!--                                            <p class="m-0 text-blue-700 line-height-3">Ut enim ad minim veniam, quis-->
+<!--                                                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo-->
+<!--                                                consequat.</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="ui-carousel-item">-->
+<!--                                        <div class="text-center mb-8"><img-->
+<!--                                            id="j_idt150:blockViewerForm:j_idt153:2:j_idt155"-->
+<!--                                            src="/primeblocks-jsf/javax.faces.resource/images/blocks/illustration/subscribe.svg.xhtml?ln=primeblocks-app"-->
+<!--                                            class="mb-6 w-6" alt="Image">-->
+<!--                                            <div class="mx-auto font-medium text-xl mb-4 text-blue-900">Cloud Backup-->
+<!--                                                Williams-->
+<!--                                            </div>-->
+<!--                                            <p class="m-0 text-blue-700 line-height-3">Duis aute irure dolor in-->
+<!--                                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla-->
+<!--                                                pariatur.</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <button class="ui-carousel-next ui-link" type="button"><span-->
+<!--                                class="ui-carousel-next-icon pi pi-chevron-right"></span></button>-->
+<!--                        </div>-->
+<!--                        <ul class="ui-carousel-indicators ui-reset">-->
+<!--                            <li class="ui-carousel-indicator ui-state-highlight">-->
+<!--                                <button class="ui-link" type="button"></button>-->
+<!--                            </li>-->
+<!--                            <li class="ui-carousel-indicator ">-->
+<!--                                <button class="ui-link" type="button"></button>-->
+<!--                            </li>-->
+<!--                            <li class="ui-carousel-indicator ">-->
+<!--                                <button class="ui-link" type="button"></button>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="w-full lg:w-6 p-4 lg:p-7 surface-card" [formGroup]="loginForm">-->
+<!--        <div class="flex align-items-center justify-content-between mb-7">-->
+<!--            <span class="text-2xl font-medium text-900">Login to Bastion</span>-->
+<!--            <a tabindex="0"-->
+<!--               class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Sign-->
+<!--                up</a>-->
+<!--        </div>-->
+<!--        <div class="flex justify-content-between">-->
+<!--            <button id="j_idt150:blockViewerForm:j_idt158" name="j_idt150:blockViewerForm:j_idt158"-->
+<!--                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"-->
+<!--                    type="button" role="button" aria-disabled="false"><span-->
+<!--                class="ui-button-icon-left ui-icon ui-c pi pi-facebook text-indigo-400"></span><span-->
+<!--                class="ui-button-text ui-c">Sign in With Facebook</span></button>-->
+<!--            <button id="j_idt150:blockViewerForm:j_idt159" name="j_idt150:blockViewerForm:j_idt159"-->
+<!--                    class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left mr-2 w-6 font-medium border-1 surface-border surface-100 py-1 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"-->
+<!--                    type="button" role="button" aria-disabled="false"><span-->
+<!--                class="ui-button-icon-left ui-icon ui-c pi pi-google text-pink-400 mr-2"></span><span-->
+<!--                class="ui-button-text ui-c">Sign in With Google</span></button>-->
+<!--        </div>-->
+
+<!--        <div class="flex w-full relative align-items-center justify-content-center my-6 px-4">-->
+<!--            <div class="border-top-1 border-300 top-50 left-0 absolute w-full"></div>-->
+<!--            <div class="px-2 z-1 surface-0 flex align-items-center justify-content-center">-->
+<!--                <span class="text-600 font-normal text-sm">OR</span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <label for="email1" class="block text-900 text-xl font-medium mb-2">Username</label>-->
+<!--        <input id="email1" type="text" placeholder="Username" pInputText formControlName="username" required autofocus-->
+<!--               class="w-full mb-3" style="padding:1rem;">-->
+
+<!--        <label for="password" class="block text-900 text-xl font-medium mb-2">Password</label>-->
+<!--        <input id="password" type="password" placeholder="Password" pInputText formControlName="password"-->
+<!--               class="w-full mb-3" style="padding:1rem;"/>-->
+
+<!--        <div class="flex align-items-center justify-content-between mb-6">-->
+<!--            <div class="flex align-items-center">-->
+<!--                <div id="j_idt150:blockViewerForm:rememberme4"-->
+<!--                     class="ui-selectbooleancheckbox ui-chkbox ui-widget mr-2">-->
+<!--                    <div class="ui-helper-hidden-accessible"><input id="j_idt150:blockViewerForm:rememberme4_input"-->
+<!--                                                                    name="j_idt150:blockViewerForm:rememberme4_input"-->
+<!--                                                                    type="checkbox" autocomplete="off"-->
+<!--                                                                    aria-checked="false"></div>-->
+<!--                    <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"><span-->
+<!--                        class="ui-chkbox-icon ui-icon ui-icon-blank ui-c"></span></div>-->
+<!--                </div>-->
+<!--                <label> Remember me</label>-->
+<!--            </div>-->
+<!--            <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot-->
+<!--                password?</a>-->
+<!--        </div>-->
+<!--        <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="submit()"></button>-->
+<!--    </div>-->
+<!--</div>-->
+

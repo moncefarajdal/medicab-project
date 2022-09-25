@@ -1,0 +1,44 @@
+<p-dialog [(visible)]="editPrescriptionDialog" [style]="{width: '650px', height: '1000px'}" header="Ajouter une prescription"
+          [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-12">
+                <label for="1">Reference<span style="color: red;"> *</span></label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Reference" id="1"
+                       [(ngModel)]="selectedPrescription.reference">
+            </div>
+
+            <div class="field col-12 md:col-10">
+                <label for="2">Medicament<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="medicaments" [(ngModel)]="selectedPrescription.medicamentVo"
+                            id="2" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true" optionLabel="libelle" placeholder="Medicament">
+                </p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="3">Quantite Medicament <span style="color: red;"> *</span></label>
+                <input type="text" pInputText placeholder="Quantite Medicament" id="3" [(ngModel)]="selectedPrescription.qteMedicament" required autofocus>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="4">Nombre de fois <span style="color: red;"> *</span></label>
+                <input type="text" placeholder="Nombre de fois" pInputText id="4" [(ngModel)]="selectedPrescription.nbreFois" required autofocus>
+            </div>
+
+            <div class="field col-12 md:col-12">
+                <label for="7">Genre<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="ordonnances" [(ngModel)]="selectedPrescription.ordonnanceVo"
+                            id="7" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true" optionLabel="reference" placeholder="Ordonnance">
+                </p-dropdown>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideEditDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="edit()"></button>
+    </ng-template>
+</p-dialog>

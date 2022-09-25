@@ -1,0 +1,64 @@
+<p-dialog [(visible)]="createPrescriptionDialog" [style]="{width: '650px', height: '1000px'}" header="Ajouter une prescription"
+          [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-12">
+                <label for="1">Reference<span style="color: red;"> *</span></label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Reference" id="1"
+                       [(ngModel)]="selectedPrescription.reference" [ngClass]="{'ng-invalid ng-dirty' : !validPrescriptionReference}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPrescription.reference">Reference is required.</small>
+            </div>
+
+            <div class="field col-12 md:col-10">
+                <label for="2">Medicament<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="medicaments" [(ngModel)]="selectedPrescription.medicamentVo"
+                            id="2" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true"
+                            optionLabel="libelle"
+                            placeholder="Medicament" [ngClass]="{'ng-invalid ng-dirty' : !validPrescriptionMedicament}">
+                </p-dropdown>
+                <small class='p-error' *ngIf='!validPrescriptionMedicament'>Medicament est obligatoire.</small>
+            </div>
+
+            <div class="field col-12 md:col-2">
+                <button pButton pRipple type="button" class="mr-2 mb-2"
+                        icon="pi pi-plus" (click)="openCreatemedicament('medicament')"></button>
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <label for="3">Quantite Medicament <span style="color: red;"> *</span></label>
+                <input type="text" pInputText placeholder="Quantite Medicament" id="3" [(ngModel)]="selectedPrescription.qteMedicament" required autofocus
+                       [ngClass]="{'ng-invalid ng-dirty' : !validPrescriptionQteMedicament}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPrescription.qteMedicament">Quantite is required.</small>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="4">Nombre de fois <span style="color: red;"> *</span></label>
+                <input type="text" placeholder="Nombre de fois" pInputText id="4" [(ngModel)]="selectedPrescription.nbreFois" required autofocus
+                       [ngClass]="{'ng-invalid ng-dirty' : !validPrescriptionNbreFois}"/>
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && !selectedPrescription.nbreFois">Nombre de fois is
+                    required.</small>
+            </div>
+
+            <div class="field col-12 md:col-12">
+                <label for="7">Ordonnance<span style="color: red;"> *</span></label>
+                <p-dropdown [options]="ordonnances" [(ngModel)]="selectedPrescription.ordonnanceVo"
+                            id="7" [filter]="true" filterMatchMode="contains"
+                            [showClear]="true"
+                            optionLabel="reference"
+                            placeholder="Ordonnance" [ngClass]="{'ng-invalid ng-dirty' : !validPrescriptionOrdonnance}">
+                </p-dropdown>
+                <small class='p-error' *ngIf='!validPrescriptionOrdonnance'>Ordonnance est obligatoire.</small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary"
+                (click)="hideCreateDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+
+    <app-medicament-create></app-medicament-create>
+
+</p-dialog>

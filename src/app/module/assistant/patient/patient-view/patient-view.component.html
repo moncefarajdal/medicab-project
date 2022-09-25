@@ -1,0 +1,70 @@
+<p-dialog [(visible)]="viewPatientDialog" [style]="{width: '70vw', height: '80vh'}" header="Information du patient"
+          [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label for="1">Nom</label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Nom" id="1"
+                       [(ngModel)]="selectedPatient.nom" [disabled]="true">
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="2">Prenom</label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText placeholder="Prenom" id="2"
+                       [(ngModel)]="selectedPatient.prenom" [disabled]="true">
+            </div>
+            <div class="field col-12">
+                <label for="6">Date de naissance</label>
+                <p-calendar id="6" placeholder="DD/MM/YYYY" [(ngModel)]="selectedPatient.dateNaissance"
+                            [showIcon]="true" [showButtonBar]="true"
+                            dateFormat="{{dateFormat}}" [disabled]="true">
+                </p-calendar>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="3">Cin</label>
+                <input type="text" pInputText id="3" [(ngModel)]="selectedPatient.cin" required autofocus [disabled]="true">
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="4">Telephone</label>
+                <input type="text" pInputText id="4" [(ngModel)]="selectedPatient.telephone" required autofocus [disabled]="true">
+            </div>
+            <div class="field col-12 md:col-12">
+                <label for="5">Adresse</label>
+                <input class="p-mb-2 p-mr-2" type="text" pInputText
+                       placeholder="Adresse"
+                       id="5" [(ngModel)]="selectedPatient.adresse" [disabled]="true">
+            </div>
+            <div class="field col-12 md:col-2">
+                <label for="9">Mutualise</label>
+                <div class="input-switch mt-2">
+                    <p-inputSwitch id="9" [(ngModel)]="selectedPatient.mutualise" [disabled]="true"></p-inputSwitch>
+                </div>
+            </div>
+            <div class="field col-12 md:col-5">
+                <label for="7">Genre</label>
+                <p-dropdown [options]="sexes" [(ngModel)]="selectedPatient.sexeVo"
+                            id="7" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                            optionLabel="code" placeholder="Sexe" [disabled]="true">
+                </p-dropdown>
+            </div>
+            <div class="field col-12 md:col-5">
+                <label for="8">Mutuelle</label>
+                <!--                <p-dropdown [options]="mutuelles" [(ngModel)]="selectedPatient.mutuelleVo"-->
+                <!--                            id="8" [filter]="true" filterMatchMode="contains"-->
+                <!--                            [showClear]="true"-->
+                <!--                            optionLabel="code"-->
+                <!--                            placeholder="Mutuelle">-->
+                <!--                </p-dropdown>-->
+                <p-dropdown [options]="mutuelles" [(ngModel)]="selectedPatient.mutuelleVo"
+                            id="8" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                            optionLabel="code" placeholder="Mutuelle" [disabled]="true">
+                </p-dropdown>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideViewDialog()"></button>
+    </ng-template>
+</p-dialog>

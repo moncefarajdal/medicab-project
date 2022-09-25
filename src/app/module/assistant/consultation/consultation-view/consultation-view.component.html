@@ -1,0 +1,91 @@
+<p-dialog [(visible)]="viewConsultationDialog" [style]="{width: '70vw'}" header="Details la consultation"
+          [modal]="true" class="p-fluid" [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <p-tabView>
+            <p-tabPanel header="Consultation">
+                <div class="field">
+                    <label for="2">Date de consultation</label>
+                    <p-calendar id="2" placeholder="Date de consultation" [showIcon]="false" id="2" [showButtonBar]="true"
+                                [(ngModel)]="selectedConsultation.dateConsultation" dateFormat="{{dateFormat}}" [disabled]="true">
+                    </p-calendar>
+                </div>
+                <div class="field">
+                    <label for="3">Montant</label>
+                    <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Montant" [(ngModel)]="selectedConsultation.tarif"
+                                   [showButtons]="false" [disabled]="true">
+                    </p-inputNumber>
+                </div>
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="6">Type de Consultation</label>
+                        <p-dropdown [options]="typeConsultations" [(ngModel)]="selectedConsultation.typeConsultationVo"
+                                    id="6" [filter]="true" filterMatchMode="contains" [showClear]="true" optionLabel="libelle" [disabled]="true"
+                                    placeholder="Type consultation">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="4">Patient</label>
+                        <p-dropdown [options]="patients" [(ngModel)]="selectedConsultation.patientVo"
+                                    id="4" [filter]="true" filterMatchMode="contains" [showClear]="true"
+                                    optionLabel="cin" placeholder="Patient" [disabled]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="Les constante de la consultation">
+                <div class="p-grid">
+                    <div class="p-col">
+                        <div class="card">
+                            <p-table [value]="selectedConsultation.constanteConsultationsVo" [scrollable]="true"
+                                     scrollHeight="200px">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Constante</th>
+                                        <th>Valeur</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.constanteVo?.libelle}}</td>
+                                        <td>{{p.valeur}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+            </p-tabPanel>
+
+            <p-tabPanel header="Paiement">
+                <p-tabView>
+                    <p-tabPanel header="Liste">
+                        <div class="card">
+                            <p-table [value]="selectedConsultation.paiementsVo" [scrollable]="true" scrollHeight="200px">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Reference</th>
+                                        <th>Montant</th>
+                                        <th>Date de paiement</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-p>
+                                    <tr>
+                                        <td>{{p.reference}}</td>
+                                        <td>{{p.montant}}</td>
+                                        <td>{{p.datePaiement | date: dateFormatColumn}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </p-tabPanel>
+                </p-tabView>
+            </p-tabPanel>
+        </p-tabView>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideViewDialog()"></button>
+    </ng-template>
+</p-dialog>

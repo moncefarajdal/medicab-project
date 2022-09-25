@@ -1,0 +1,161 @@
+<div class="grid p-fluid">
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Patients</span>
+                    <div class="text-900 font-medium text-xl">{{patients.length}} </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                     [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-user text-blue-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">en total. </span>
+<!--            <span class="text-500">since last month</span>-->
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Revenue</span>
+                    <!--                    <div class="text-900 font-medium text-xl">$2.100</div>-->
+                    <div class="text-900 font-medium text-xl">{{monthlyRevenue}} DH</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                     [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-dollar text-orange-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">en revenue ce mois. </span>
+<!--            <span class="text-500">since last week</span>-->
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Consultations </span>
+                    <div class="text-900 font-medium text-xl">{{consultations.length}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                     [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-check-square text-purple-500 text-xl"></i>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">en total. </span>
+<!--            <span class="text-500">responded</span>-->
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-12">
+        <div class="card">
+            <div class="header">
+                <h5>Revenues</h5>
+                <div class="body">
+                    <apx-chart [series]="linechartOptions.series" [chart]="linechartOptions.chart"
+                               [dataLabels]="linechartOptions.dataLabels"
+                               [plotOptions]="linechartOptions.plotOptions"
+                               [yaxis]="linechartOptions.yaxis" [legend]="linechartOptions.legend"
+                               [fill]="linechartOptions.fill"
+                               [colors]="linechartOptions.colors" [stroke]="linechartOptions.stroke"
+                               [tooltip]="linechartOptions.tooltip"
+                               [xaxis]="linechartOptions.xaxis">
+                    </apx-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <div class="header">
+                <h5>Patients Overview</h5>
+            </div>
+            <div class="body">
+                <apx-chart [series]="areaChartOptions.series" [chart]="areaChartOptions.chart"
+                           [xaxis]="areaChartOptions.xaxis" [yaxis]="areaChartOptions.yaxis"
+                           [colors]="areaChartOptions.colors"
+                           [stroke]="areaChartOptions.stroke" [legend]="areaChartOptions.legend"
+                           [tooltip]="areaChartOptions.tooltip"
+                           [dataLabels]="areaChartOptions.dataLabels"></apx-chart>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4 lg:col-6">
+        <div class="card">
+            <div class="flex justify-content-between align-items-center mb-5">
+                <h5>Statistique des patient</h5>
+            </div>
+            <ul class="list-none p-0 m-0">
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Patients</span>
+                    </div>
+                    <div class="mt-2 md:mt-0 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                             [ngStyle]="{height: '8px'}">
+                            <div class="bg-orange-500 h-full" [ngStyle]="{width: '51%'}"></div>
+                        </div>
+                        <span class="text-orange-500 ml-3 font-medium">{{malePatients * 100 / patients.length}}%</span>
+                    </div>
+                </li>
+                <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <div>
+                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">Patientes</span>
+                    </div>
+                    <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                        <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                             [ngStyle]="{height: '8px'}">
+                            <div class="bg-cyan-500 h-full" [ngStyle]="{width: '49%'}"></div>
+                        </div>
+                        <span class="text-cyan-500 ml-3 font-medium">{{femalePatients * 100 / patients.length}}%</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="card">
+            <h5>Les nouveaux patients</h5>
+            <p-table #dt [value]="patients" [columns]="cols" [rows]="3" [paginator]="true"
+                     [globalFilterFields]="['cin', 'nom', 'prenom', 'dateNaissance']"
+                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [showCurrentPageReport]="false">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="cin">CIN
+                            <p-sortIcon field="cin"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="nom">Nom
+                            <p-sortIcon field="nom"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="prenom">Prenom
+                            <p-sortIcon field="prenom"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-patient>
+                    <tr>
+                        <td style="width:14%;">{{patient.cin}}</td>
+                        <td style="width:14%;">{{patient.nom}}</td>
+                        <td style="width:14%;">{{patient.prenom}}</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+
+<!--    <div class="col-12 lg:col-4">-->
+<!--        <div class="card flex flex-column align-items-center">-->
+<!--            <h5 class="text-left w-full">Patient Overview</h5>-->
+<!--            <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"-->
+<!--                     [style]="{'width': '50%'}"></p-chart>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</div>

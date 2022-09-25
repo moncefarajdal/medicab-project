@@ -1,0 +1,24 @@
+<p-dialog [(visible)]="viewTypeConsultationDialog" [style]="{width: '450px'}" header="Ajouter un paiement" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="1">Code</label>
+            <input type="text" pInputText id="1" placeholder="Code" [(ngModel)]="selectedTypeConsultation.code" [disabled]="true">
+        </div>
+
+        <div class="field">
+            <label for="2">Libelle</label>
+            <input type="text" pInputText id="2" placeholder="Libelle" [(ngModel)]="selectedTypeConsultation.libelle" [disabled]="true">
+        </div>
+
+        <div class="field">
+            <label for="3">Tarif</label>
+            <p-inputNumber class="p-mb-2 p-mr-2" id="3" placeholder="Tarif" [(ngModel)]="selectedTypeConsultation.tarif" [disabled]="true">
+            </p-inputNumber>
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-secondary" (click)="hideViewDialog()"></button>
+    </ng-template>
+</p-dialog>
